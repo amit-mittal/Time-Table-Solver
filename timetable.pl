@@ -1,19 +1,26 @@
+% TODO use no. of lectures needed for that
+% TODO add support of taking input, read from file and write to file
+% TODO lab classes support still needs to be added
+% TODO Remove warnings
+
+
+% ========================= TIME TABLE CONSTRAINTS SPECIFIED =========================
 % course(no., students, faculty_code, no. of lectures)
 course(ma121, 22, kk11, 2).
-course(ma122, 25, kk12, 2).
-course(ma123, 4, kk13, 2).
+course(ma122, 5, kk12, 2).
+course(ma123, 24, kk13, 2).
 
 % room(no., capacity)
-room(1101, 30).
+room(1101, 15).
 room(1102, 30).
 
 % course_groups(list)
 % course_groups([ma121, ma122, ma123]).
 
 % force(course, slots(list))
-force(ma121, slots([a, b, c])).
-force(ma122, slots([a, b, c])).
-force(ma123, slots([a, b, c])).
+force(ma121, slots([a, b])).
+force(ma122, slots([a, b])).
+force(ma123, slots([a, b])).
 
 % force(course, rooms(list))
 force(ma121, rooms([1101, 1102])).
@@ -23,9 +30,9 @@ force(ma123, rooms([1101, 1102])).
 % TODO add days to slot info or no. of lectures
 slot(a).
 slot(b).
-slot(c).
 
 
+% ========================= GENERIC CODE =========================
 % Count number of occurrence of course in the list
 count_course(_, [], 0) :- !.
 count_course(X, [alloted(X, _, _)|T], N) :- count_course(X, T, N2), N is N2 + 1.
@@ -104,7 +111,3 @@ solve(course_groups([CourseGroup|B]), Table):-
                                 solve(course_groups(B), Table2),
                                 append(Table1, Table2, Table),
                                 consistency_check(Table).
-
-
-
-% TODO use no. of lectures needed for that
