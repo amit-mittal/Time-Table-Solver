@@ -1,0 +1,6 @@
+imp thing is how to store table first of all
+- make each entry in time table like alloted(course, room no., slot)
+- time table is just a list
+- force list is contraints telling all the possibilities
+	force(course, slot_list)
+	force(course, room_list)
