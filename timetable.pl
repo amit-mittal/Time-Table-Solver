@@ -1,3 +1,31 @@
+% course(no., students, faculty_code, no. of lectures)
+course(ma121, 22, kk11, 2).
+course(ma122, 25, kk12, 2).
+course(ma123, 4, kk13, 2).
+
+% room(no., capacity)
+room(1101, 30).
+room(1102, 30).
+
+% course_groups(list)
+% course_groups([ma121, ma122, ma123]).
+
+% force(course, slots(list))
+force(ma121, slots([a, b, c])).
+force(ma122, slots([a, b, c])).
+force(ma123, slots([a, b, c])).
+
+% force(course, rooms(list))
+force(ma121, rooms([1101, 1102])).
+force(ma122, rooms([1101, 1102])).
+force(ma123, rooms([1101, 1102])).
+
+% TODO add days to slot info or no. of lectures
+slot(a).
+slot(b).
+slot(c).
+
+
 % Count number of occurrence of course in the list
 count_course(_, [], 0) :- !.
 count_course(X, [alloted(X, _, _)|T], N) :- count_course(X, T, N2), N is N2 + 1.
@@ -19,7 +47,7 @@ count_course_slot(X, Y, [alloted(A, _, B)|T], N) :- A \= X, B \= Y, count_course
 
 % Count number of occurrence of slot in the time table given the course group
 % count_slot(slot, course group list, time table list, count)
-count_slot(_, _, [], 0) :- !.
+count_slot(_, [], _, 0) :- !.
 count_slot(X, [A|B], Y, N) :- count_course_slot(A, X, Y, N1), count_slot(X, B, Y, N2), N is N1 + N2.
 
 % Check if a course is in the course group
@@ -33,32 +61,6 @@ if_both_in_group(Course1, Course2, X):- if_in_group(Course1, X), if_in_group(Cou
 if_in_same_group(Course1, Course2, [course_group(X)|Y]):- if_both_in_group(Course1, Course2, X), !.
 if_in_same_group(Course1, Course2, [course_group(X)|Y]):- if_in_same_group(Course1, Course2, Y).
 
-% course(no., students, faculty_code, no. of lectures)
-course(ma121, 22, kk11, 2).
-course(ma122, 25, kk12, 2).
-course(ma123, 4, kk13, 2).
-
-% room(no., capacity)
-room(1101, 30).
-room(1102, 30).
-
-% course_groups(list)
-% course_groups([ma121, ma122, ma123]).
-
-% force(course, slots(list))
-force(ma121, slots([a])).
-force(ma122, slots([a, b, c])).
-force(ma123, slots([a, b, c])).
-
-% force(course, rooms(list))
-force(ma121, rooms([1101])).
-force(ma122, rooms([1101, 1102])).
-force(ma123, rooms([1101, 1102])).
-
-% TODO add days to slot info or no. of lectures
-slot(a).
-slot(b).
-slot(c).
 
 % Consistency Check
 % just check that room and slot are not getting repeating simultaneously
@@ -67,6 +69,7 @@ consistency_check(course_group([CourseCode|B]), X):-
 								member(alloted(CourseCode, Room, Slot), X),
 								count_course(CourseCode, X, Count1), Count1 == 1,
 								count_room_slot(Room, Slot, X, Count2), Count2 == 1,
+								count_slot(Slot, [CourseCode|B], X, Count3), Count3 == 1,
 								consistency_check(course_group(B), X).
 
 % Checking consistency of one course with respect to the allotment
