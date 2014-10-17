@@ -10,6 +10,18 @@ count_room_slot(X, Y, [alloted(_, Z, Y)|T], N) :- X \= Z, count_room_slot(X, Y, 
 count_room_slot(X, Y, [alloted(_, X, Z)|T], N) :- Y \= Z, count_room_slot(X, Y, T, N).
 count_room_slot(X, Y, [alloted(_, A, B)|T], N) :- X \= A, Y \= B, count_room_slot(X, Y, T, N).
 
+% Count number of occurrence of course and slot together in the list
+count_course_slot(_, _, [], 0) :- !.
+count_course_slot(X, Y, [alloted(X, _, Y)|T], N) :- count_course_slot(X, Y, T, N2), N is N2 + 1.
+count_course_slot(X, Y, [alloted(X, _, A)|T], N) :- A \= Y, count_course_slot(X, Y, T, N).
+count_course_slot(X, Y, [alloted(A, _, Y)|T], N) :- A \= X, count_course_slot(X, Y, T, N).
+count_course_slot(X, Y, [alloted(A, _, B)|T], N) :- A \= X, B \= Y, count_course_slot(X, Y, T, N).
+
+% Count number of occurrence of slot in the time table given the course group
+% count_slot(slot, course group list, time table list, count)
+count_slot(_, _, [], 0) :- !.
+count_slot(X, [A|B], Y, N) :- count_course_slot(A, X, Y, N1), count_slot(X, B, Y, N2), N is N1 + N2.
+
 % Check if a course is in the course group
 if_in_group(Course, [Course|Y]).
 if_in_group(Course, [X|Y]):- X \= Course, if_in_group(Course, Y).
