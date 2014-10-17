@@ -40,5 +40,7 @@ solve(CourseCode, [alloted(CourseCode, Room, Slot)|X]):- atom(CourseCode),
 solve(CourseCode, [alloted(B, _, _)|X]):- atom(CourseCode), solve(CourseCode, X).
 
 % TODO Also implement one solver which takes in whole list
+solve(course_group([]), Table).
+solve(course_group([A|B]), Table):- solve(A, Table), solve(course_group(B), Table).
 
 % Can use delete to delete free slot or room lists
