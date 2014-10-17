@@ -26,7 +26,19 @@ slot(b).
 slot(c).
 
 % table contains alloted(course, room no., slot)
-% A is course code
-solve(A, Table([alloted(B, _, _)|X])):- atom(A), solve(A, Table([X])).
+solve(CourseCode, [alloted(CourseCode, Room, Slot)|X]):- atom(CourseCode), 
+								course(CourseCode, Students, _, _), 
+								room(Room, Capacity), 
+								slot(Slot),
+								Capacity >= Students,
+								force(CourseCode, rooms(Rooms)),
+								member(Room, Rooms),
+								force(CourseCode, slots(Slots)),
+								member(Slot, Slots),
+								\+ member(alloted(Other, Room, Slot), X),
+								!.
+solve(CourseCode, [alloted(B, _, _)|X]):- atom(CourseCode), solve(CourseCode, X).
 
 % TODO Also implement one solver which takes in whole list
+
+% Can use delete to delete free slot or room lists
