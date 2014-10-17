@@ -72,6 +72,12 @@ consistency_check(course_group([CourseCode|B]), X):-
 								count_slot(Slot, [CourseCode|B], X, Count3), Count3 == 1,
 								consistency_check(course_group(B), X).
 
+% Consistency Check of whole Time Table
+consistency_check([]).
+consistency_check([alloted(CourseCode, Room, Slot)|X]):-
+								count_room_slot(Room, Slot, X, Count), Count == 1,
+								consistency_check(X).
+
 % Checking consistency of one course with respect to the allotment
 solve(CourseCode, alloted(CourseCode, Room, Slot)):- 
 								atom(CourseCode), 
@@ -91,6 +97,14 @@ solve(course_group([CourseCode|B]), [alloted(CourseCode, R, S)|X]):-
 								solve(course_group(B), X),
 								consistency_check(course_group([CourseCode|B]), [alloted(CourseCode, R, S)|X]).
 
+% Checking consistency of multiple course groups
+solve(course_groups([]), []).
+solve(course_groups([CourseGroup|B]), [Table1|Table]):-
+								solve(CourseGroup, Table1),
+								solve(course_groups(B), Table),
+								consistency_check([Table1|Table]).
+
+
 
 % TODO use no. of lectures needed for that
-% TODO if 2 courses in same group their slot count should also be 1
+% TODO implement multiple course groups now
