@@ -86,6 +86,6 @@ solve(course_groups([CourseGroup|B]), Table):-
 
 main:-
     write('please type file name containing all the facts:'),
-%    read(X),
+%   read(X),
     X = 'C:/Users/AMIT/Dropbox/GITHUB/Time Table Solver/input.txt',
     consult(X).

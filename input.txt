@@ -9,7 +9,7 @@ room(1101, 15).
 room(1102, 30).
 
 % course_groups(list)
-% course_groups([ma121, ma122, ma123]).
+course_groups([course_group([ma121, ma122, ma123])]).
 
 % force(course, slots(list))
 force(ma121, slots([a, b])).
