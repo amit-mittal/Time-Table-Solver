@@ -1,9 +1,3 @@
-% TODO add support of taking input, read from file and write to file
-% TODO lab classes support still needs to be added
-% TODO Remove warnings
-
-
-% ========================= GENERIC CODE =========================
 % Count number of occurrence of course in the list
 count_course(_, [], 0) :- !.
 count_course(X, [alloted(X, _, _)|T], N) :- count_course(X, T, N2), N is N2 + 1.
@@ -29,7 +23,13 @@ count_slot(_, [], _, 0) :- !.
 count_slot(X, [A|B], Y, N) :- count_course_slot(A, X, Y, N1), count_slot(X, B, Y, N2), N is N1 + N2.
 
 
-% Consistency Check
+% Consistency Check of whole Time Table
+consistency_check([]).
+consistency_check([alloted(_, Room, Slot)|X]):-
+                                count_room_slot(Room, Slot, X, 0),
+                                consistency_check(X).
+
+% Consistency Check of one course group
 consistency_check(course_group([]), _).
 consistency_check(course_group([CourseCode|B]), X):- 
                                 member(alloted(CourseCode, Room, Slot), X),
@@ -38,14 +38,8 @@ consistency_check(course_group([CourseCode|B]), X):-
                                 count_slot(Slot, [CourseCode|B], X, 1),
                                 consistency_check(course_group(B), X).
 
-% Consistency Check of whole Time Table
-consistency_check([]).
-consistency_check([alloted(_, Room, Slot)|X]):-
-                                count_room_slot(Room, Slot, X, 0),
-                                consistency_check(X).
-
 % Checking consistency of one course with respect to the allotment
-solve(CourseCode, alloted(CourseCode, Room, Slot)):- 
+consistency_check(CourseCode, alloted(CourseCode, Room, Slot)):- 
                                 atom(CourseCode), 
                                 course(CourseCode, Students, _, _), 
                                 force(CourseCode, rooms(Rooms)),
@@ -56,14 +50,14 @@ solve(CourseCode, alloted(CourseCode, Room, Slot)):-
                                 member(Slot, Slots),
                                 slot(Slot).
 
-% Checking consistency of one course group
+% Solving one course group
 solve(course_group([]), []).
 solve(course_group([CourseCode|B]), [alloted(CourseCode, R, S)|X]):- 
-                                solve(CourseCode, alloted(CourseCode, R, S)), 
+                                consistency_check(CourseCode, alloted(CourseCode, R, S)), 
                                 solve(course_group(B), X),
                                 consistency_check(course_group([CourseCode|B]), [alloted(CourseCode, R, S)|X]).
 
-% Checking consistency of multiple course groups
+% Solving multiple course groups
 solve(course_groups([]), []).
 solve(course_groups([CourseGroup|B]), Table):-
                                 solve(CourseGroup, Table1),
@@ -72,11 +66,20 @@ solve(course_groups([CourseGroup|B]), Table):-
                                 consistency_check(Table).
 
 
+% Managing the flow of the program
 main:-
-    write('Input FileName: '),
-    read(X),
-    consult(X),
+    write('Input FilePath: '),
+    read(In),
+    consult(In),
     course_groups(A),
-    solve(course_groups(A), Table),
-    write('Possible Time Table:\n'),
-    write(Table).
+    write('Output FilePath: '),
+    read(Out),
+    tell(Out),
+    (
+        solve(course_groups(A), Table),
+        writeln('Possible Time Table:'),
+        writeln(Table), nl,
+        fail
+    ;
+        told
+    ).
