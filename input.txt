@@ -1,26 +1,42 @@
 % ========================= TIME TABLE CONSTRAINTS SPECIFIED =========================
 % course(no., students, faculty_code, no. of lectures)
-course(ma121, 22, kk11, 2).
-course(ma122, 5, kk12, 2).
-course(ma123, 24, kk13, 2).
+course(ma121, 2, kk, 3).
+course(ma122, 5, kvk, 3).
+course(ma123, 24, jk, 3).
+
+course(ma221, 22, ac, 3).
+course(ma222, 24, sb, 3).
+
 
 % room(no., capacity)
 room(1101, 15).
 room(1102, 30).
+room(1104, 50).
+
 
 % course_groups(list)
-course_groups([course_group([ma121, ma122, ma123])]).
+course_groups([course_group([ma121, ma122, ma123]), course_group([ma221, ma222])]).
+
 
 % force(course, slots(list))
-force(ma121, slots([a, b])).
-force(ma122, slots([a, b])).
-force(ma123, slots([a, b])).
+force(ma121, slots([a, b, c])).
+force(ma122, slots([a, b, c])).
+force(ma123, slots([a, b, c])).
+
+force(ma221, slots([a, b, c])).
+force(ma222, slots([a, b, c])).
+
 
 % force(course, rooms(list))
 force(ma121, rooms([1101, 1102])).
 force(ma122, rooms([1101, 1102])).
 force(ma123, rooms([1101, 1102])).
 
+force(ma221, rooms([1101, 1102])).
+force(ma222, rooms([1101, 1102])).
+
+
 % TODO add days to slot info or no. of lectures
 slot(a).
 slot(b).
+slot(c).

@@ -85,7 +85,10 @@ solve(course_groups([CourseGroup|B]), Table):-
 
 
 main:-
-    write('please type file name containing all the facts:'),
-%   read(X),
-    X = 'C:/Users/AMIT/Dropbox/GITHUB/Time Table Solver/input.txt',
-    consult(X).
+    write('Input FileName: '),
+    read(X),
+    consult(X),
+    course_groups(A),
+    solve(course_groups(A), Table),
+    write('Possible Time Table:\n'),
+    write(Table).

@@ -1,6 +1,8 @@
 % TODO add support of taking input, read from file and write to file
 % TODO lab classes support still needs to be added
 % TODO Remove warnings
+% TODO Remove redundant files from the folder
+% TODO Test for other inputs - make a big test case
 
 
 % ========================= TIME TABLE CONSTRAINTS SPECIFIED =========================
