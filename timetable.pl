@@ -1,4 +1,3 @@
-% TODO use no. of lectures needed for that
 % TODO add support of taking input, read from file and write to file
 % TODO lab classes support still needs to be added
 % TODO Remove warnings
