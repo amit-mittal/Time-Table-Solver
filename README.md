@@ -18,8 +18,7 @@ How to define input file?
 
 Features
 --------
-- To apply OR in force constraints, define 2 force constraints for the same courses<br/>
-- To apply AND in force constraints, write them in the list of same force constraint<br/>
+- To apply OR in force constraints, write them in the list of same force constraint<br/>
 - Supports consistency check: load main.pl and your input file, call course_groups(A), solve(course_groups(A), your_timetable). It will return true or false.
 
 Improvements
@@ -27,4 +26,5 @@ Improvements
 - one course can come in many course groups<br/>
 - order in time table matters, should be in same sequence as in course groups<br/>
 - handle labs + lectures in time table<br/>
-- force contraint says one room as well as slot simulaneously. eg. if room A, then slot B needed OR if room X, then slot Y needed
+- force contraint says one room as well as slot simulaneously. eg. if room A, then slot B needed OR if room X, then slot Y needed(AND is not supported)
+- improve main by giving different choices
