@@ -12,7 +12,9 @@ How to Run?
 How to define input file?
 --------------------------
 - See sample input.txt<br/>
-- force contraint is the list containing the possible values, it can take
+- force contraint is the list containing the possible values, it can take<br/>
+- one course_group contains courses which are taken by one class as a whole and which can't be clashed<br/>
+- one course_groups is list of many course_group
 
 Features
 --------

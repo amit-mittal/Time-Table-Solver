@@ -19,7 +19,9 @@ course_groups([course_group([ma121, ma122, ma123]), course_group([ma221, ma222])
 
 
 % force(course, slots(list))
-force(ma121, slots([a, b, c])).
+force(ma121, slots([a])).
+force(ma121, slots([b])).
+force(ma121, slots([c])).
 force(ma122, slots([a, b, c])).
 force(ma123, slots([a, b, c])).
 
