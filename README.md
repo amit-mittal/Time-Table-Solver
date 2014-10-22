@@ -28,3 +28,6 @@ Improvements
 - handle labs + lectures in time table<br/>
 - force contraint says one room as well as slot simulaneously. eg. if room A, then slot B needed OR if room X, then slot Y needed(AND is not supported)
 - improve main by giving different choices
+- ways to compare 2 timetables list and find all the common ones
+- change inconsistent timetable to consistent in min no. of swappings
+- four files containing different facts - one for each course, slot, etc. but that file wont be in prolog fact form, just a tuple
