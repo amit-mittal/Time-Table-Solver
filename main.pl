@@ -124,5 +124,6 @@ main:-
             solve(course_groups(A), NewTable)
             % TODO failing as in our time table order matters in which courses are given
             % Consider the case that courses which we want to swap are in same/diff course group
+            % FIx the issue by swapping their room no.s and slot instead of course itself
         )
     ).
