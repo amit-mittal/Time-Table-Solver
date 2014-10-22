@@ -28,3 +28,4 @@ Improvements
 - handle labs + lectures in time table<br/>
 - force contraint says one room as well as slot simulaneously. eg. if room A, then slot B needed OR if room X, then slot Y needed(AND is not supported)
 - improve main by giving different choices
+- take list of timetables, find intersection of possible timetables satisfying both the things

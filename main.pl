@@ -66,20 +66,63 @@ solve(course_groups([CourseGroup|B]), Table):-
                                 consistency_check(Table).
 
 
+% Replace CourseCode with NewCourseCode
+replace(CourseCode, NewCourseCode, [alloted(CourseCode, R, S)|Table], [alloted(NewCourseCode, R, S)|Table]):- !.
+replace(CourseCode, NewCourseCode, [alloted(DiffCourseCode, R, S)|Table], [alloted(DiffCourseCode, R, S)|NewTable]):-
+                                replace(CourseCode, NewCourseCode, Table, NewTable).
+
+% Swap 2 courses and check if time table is still consistent
+swap(CourseCode1, CourseCode2, Table, NewNewNewTable):- 
+                                replace(CourseCode1, temp, Table, NewTable),
+                                replace(CourseCode2, CourseCode1, NewTable, NewNewTable),
+                                replace(temp, CourseCode2, NewNewTable, NewNewNewTable).
+
+
 % Managing the flow of the program
 main:-
-    write('Input FilePath: '),
+    write('Input FilePath containing constraints: '),
     read(In),
     consult(In),
     course_groups(A),
-    write('Output FilePath: '),
-    read(Out),
-    tell(Out),
+
+    writeln('Options:'),
+    writeln('1 - Make Time Table'),
+    writeln('2 - Check if time table is consistent'),
+    writeln('3 - Swap 2 courses, check if consistent'),
+    write('Input: '),
+    read(Option),
     (
-        solve(course_groups(A), Table),
-        writeln('Possible Time Table:'),
-        writeln(Table), nl,
-        fail
-    ;
-        told
+        (
+            Option == 1,
+            write('Output FilePath: '),
+            read(Out),
+            tell(Out),
+            (
+                solve(course_groups(A), Table),
+                writeln('Possible Time Table:'),
+                writeln(Table), nl,
+                fail
+            ;
+                told
+            )
+        );
+        (
+            Option == 2,
+            write('Time Table: '),
+            read(Table),
+            solve(course_groups(A), Table)
+        );
+        (
+            Option == 3,
+            write('Time Table: '),
+            read(Table),
+            write('CourseCode 1: '),
+            read(CourseCode1),
+            write('CourseCode 2: '),
+            read(CourseCode2),
+            swap(CourseCode1, CourseCode2, Table, NewTable),
+            solve(course_groups(A), NewTable)
+            % TODO failing as in our time table order matters in which courses are given
+            % Consider the case that courses which we want to swap are in same/diff course group
+        )
     ).
